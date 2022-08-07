@@ -95,3 +95,8 @@ def save(ReSized6, ImagePath):
     I= "Image saved by name " + newName +" at "+ path
     tk.messagebox.showinfo(title=None, message=I)
     
+upload=Button(top,text="Cartoonify an Image",command=upload,padx=10,pady=5)
+upload.configure(background='#364156', foreground='white',font=('calibri',10,'bold'))
+upload.pack(side=TOP,pady=50)
+
+top.mainloop()

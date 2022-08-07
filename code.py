@@ -11,19 +11,17 @@ from tkinter import filedialog
 from tkinter import *
 from PIL import ImageTk, Image
 
-#body
 top=tk.Tk()
 top.geometry('400x400')
 top.title('Cartoonify Your Image !')
 top.configure(background='white')
 label=Label(top,background='#CDCDCD', font=('calibri',20,'bold'))
 
-#upload image:
 def upload():
     ImagePath=easygui.fileopenbox()
     cartoonify(ImagePath)
-    
-    
+
+
 def cartoonify(ImagePath):
     # read the image
     originalmage = cv2.imread(ImagePath)
@@ -35,19 +33,19 @@ def cartoonify(ImagePath):
         print("Can not find any image. Choose appropriate file")
         sys.exit()
 
-    ReSized1 = cv2.resize(originalmage, (960, 540))
+    ReSized1 = cv2.resize(originalmage, (600,598))
     #plt.imshow(ReSized1, cmap='gray')
 
 
     #converting an image to grayscale
     grayScaleImage= cv2.cvtColor(originalmage, cv2.COLOR_BGR2GRAY)
-    ReSized2 = cv2.resize(grayScaleImage, (960, 540))
+    ReSized2 = cv2.resize(grayScaleImage, (600,598))
     #plt.imshow(ReSized2, cmap='gray')
 
 
     #applying median blur to smoothen an image
     smoothGrayScale = cv2.medianBlur(grayScaleImage, 5)
-    ReSized3 = cv2.resize(smoothGrayScale, (960, 540))
+    ReSized3 = cv2.resize(smoothGrayScale, (600,598))
     #plt.imshow(ReSized3, cmap='gray')
 
     #retrieving the edges for cartoon effect
@@ -56,20 +54,20 @@ def cartoonify(ImagePath):
         cv2.ADAPTIVE_THRESH_MEAN_C, 
         cv2.THRESH_BINARY, 9, 9)
 
-    ReSized4 = cv2.resize(getEdge, (960, 540))
+    ReSized4 = cv2.resize(getEdge, (600,598))
     #plt.imshow(ReSized4, cmap='gray')
 
     #applying bilateral filter to remove noise 
     #and keep edge sharp as required
     colorImage = cv2.bilateralFilter(originalmage, 9, 300, 300)
-    ReSized5 = cv2.resize(colorImage, (960, 540))
+    ReSized5 = cv2.resize(colorImage, (600,598))
     #plt.imshow(ReSized5, cmap='gray')
 
 
     #masking edged image with our "BEAUTIFY" image
     cartoonImage = cv2.bitwise_and(colorImage, colorImage, mask=getEdge)
 
-    ReSized6 = cv2.resize(cartoonImage, (960, 540))
+    ReSized6 = cv2.resize(cartoonImage, (600,598))
     #plt.imshow(ReSized6, cmap='gray')
 
     # Plotting the whole transition
@@ -85,6 +83,7 @@ def cartoonify(ImagePath):
     
     plt.show()
     
+    
 def save(ReSized6, ImagePath):
     #saving an image using imwrite()
     newName="cartoonified_Image"
@@ -94,7 +93,7 @@ def save(ReSized6, ImagePath):
     cv2.imwrite(path, cv2.cvtColor(ReSized6, cv2.COLOR_RGB2BGR))
     I= "Image saved by name " + newName +" at "+ path
     tk.messagebox.showinfo(title=None, message=I)
-    
+
 upload=Button(top,text="Cartoonify an Image",command=upload,padx=10,pady=5)
 upload.configure(background='#364156', foreground='white',font=('calibri',10,'bold'))
 upload.pack(side=TOP,pady=50)

@@ -17,3 +17,8 @@ top.geometry('400x400')
 top.title('Cartoonify Your Image !')
 top.configure(background='white')
 label=Label(top,background='#CDCDCD', font=('calibri',20,'bold'))
+
+#upload image:
+def upload():
+    ImagePath=easygui.fileopenbox()
+    cartoonify(ImagePath)

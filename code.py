@@ -24,7 +24,7 @@ def upload():
     cartoonify(ImagePath)
     
     
-    def cartoonify(ImagePath):
+def cartoonify(ImagePath):
     # read the image
     originalmage = cv2.imread(ImagePath)
     originalmage = cv2.cvtColor(originalmage, cv2.COLOR_BGR2RGB)
@@ -84,4 +84,14 @@ def upload():
     save1.pack(side=TOP,pady=50)
     
     plt.show()
+    
+def save(ReSized6, ImagePath):
+    #saving an image using imwrite()
+    newName="cartoonified_Image"
+    path1 = os.path.dirname(ImagePath)
+    extension=os.path.splitext(ImagePath)[1]
+    path = os.path.join(path1, newName+extension)
+    cv2.imwrite(path, cv2.cvtColor(ReSized6, cv2.COLOR_RGB2BGR))
+    I= "Image saved by name " + newName +" at "+ path
+    tk.messagebox.showinfo(title=None, message=I)
     
